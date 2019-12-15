@@ -1,0 +1,81 @@
+version: '3.7'
+
+networks:
+  monitoring:
+    name: monitoring
+
+volumes:
+  prometheus_data:
+    driver: local
+  grafana_data:
+    driver: local
+
+
+services:
+
+  prometheus:
+    container_name: prometheus
+    image: prom/prometheus:latest
+    restart: always
+    networks:
+      - monitoring
+    expose:
+      - "9090"
+    environment:
+      - TZ=${DOCKER_TZ}
+    volumes:
+      - ${MY_DOCKER_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ${MY_DOCKER_DATA_DIR}/prometheus/alert.rules:/etc/prometheus/alert.rules
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+
+  prometheus-alertmanager:
+    container_name: prometheus-alertmanager
+    image: prom/alertmanager:latest
+    restart: always
+    environment:
+      - TZ=${DOCKER_TZ}
+    networks:
+      - monitoring
+    #expose:
+    #  - "9093"
+    volumes:
+      - ${MY_DOCKER_DATA_DIR}/prometheus/alertmanager.yml:/alertmanager.yml
+    command:
+      - '--config.file=/alertmanager.yml'
+
+  grafana:
+    container_name: grafana
+    image: grafana/grafana:latest
+    restart: always
+    depends_on:
+      - prometheus
+    networks:
+      - monitoring
+    expose:
+      - "3000"
+    ports:
+      - "9090:3000"
+    environment:
+      - TZ=${DOCKER_TZ}
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+
+    volumes:
+      - grafana_data:/var/lib/grafana
+
+  blackbox:
+    container_name: blackbox
+    image: prom/blackbox-exporter:latest
+    restart: always
+    networks:
+      - monitoring
+    expose:
+      - "9115"
+    environment:
+      - TZ=${DOCKER_TZ}
+    volumes:
+      - ${MY_DOCKER_DATA_DIR}/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
+    command:
+      - '-config.file=/etc/blackbox_exporter/config.yml'
