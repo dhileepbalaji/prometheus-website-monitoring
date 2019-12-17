@@ -26,8 +26,7 @@ services:
     environment:
       - TZ=${DOCKER_TZ}
     volumes:
-      - ${MY_DOCKER_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ${MY_DOCKER_DATA_DIR}/prometheus/alerts/:/etc/prometheus/alerts/
+      - ${MY_DOCKER_DATA_DIR}/prometheus/:/etc/prometheus/
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -43,9 +42,9 @@ services:
     expose:
       - "9093"
     volumes:
-      - ${MY_DOCKER_DATA_DIR}/prometheus/alertmanager.yml:/alertmanager.yml
+      - ${MY_DOCKER_DATA_DIR}/alertmanager/:/alertmanager/
     command:
-      - '--config.file=/alertmanager.yml'
+      - '--config.file=/alertmanager/alertmanager.yml'
 
   grafana:
     container_name: grafana

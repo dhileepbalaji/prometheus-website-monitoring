@@ -6,11 +6,11 @@
 {{ else }}
 {{ if gt (len .Alerts.Firing) 0 }}
 *Alerts Firing:*
-{{ range .Alerts.Firing }}- {{ .Annotations.identifier }}: {{ .Annotations.description }}
+{{ range .Alerts.Firing }}- {{ .Annotations.identifier }}: {{ .Annotations.downmessage }}
 {{ end }}{{ end }}
 {{ if gt (len .Alerts.Resolved) 0 }}
 *Alerts Resolved:*
-{{ range .Alerts.Resolved }}- {{ .Annotations.identifier }}: {{ .Annotations.description }}
+{{ range .Alerts.Resolved }}- {{ .Annotations.identifier }}: {{ .Annotations.upmessage }}
 {{ end }}{{ end }}
 {{ end }}
 {{ end }}

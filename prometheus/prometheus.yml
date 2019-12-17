@@ -34,10 +34,11 @@ scrape_configs:
         replacement: "blackbox:9115"
         target_label: __address__
     scrape_interval: 120s
-    static_configs: 
+    file_sd_configs: 
       - 
-        targets: 
-          - "https://www.madraswasteexchange.com"
-          - "https://staging.madraswasteexchange.com"
+        files: 
+          - /etc/prometheus/monitors/sites.yml
+          
  
     
+

@@ -1,3 +1,4 @@
 *.tar.gz
 *.gz
 *.env
+**/sites.yml
