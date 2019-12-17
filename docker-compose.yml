@@ -21,6 +21,8 @@ services:
       - monitoring
     expose:
       - "9090"
+    ports:
+      - "9080:9090"
     environment:
       - TZ=${DOCKER_TZ}
     volumes:
@@ -78,4 +80,4 @@ services:
     volumes:
       - ${MY_DOCKER_DATA_DIR}/blackbox/blackbox.yml:/etc/blackbox_exporter/config.yml
     command:
-      - '-config.file=/etc/blackbox_exporter/config.yml'
+      - '--config.file=/etc/blackbox_exporter/config.yml'
