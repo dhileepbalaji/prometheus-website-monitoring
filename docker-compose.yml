@@ -27,7 +27,7 @@ services:
       - TZ=${DOCKER_TZ}
     volumes:
       - ${MY_DOCKER_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ${MY_DOCKER_DATA_DIR}/prometheus/alerts/alert.rules:/etc/prometheus/alerts/*.yml
+      - ${MY_DOCKER_DATA_DIR}/prometheus/alerts/:/etc/prometheus/alerts/
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
@@ -40,8 +40,8 @@ services:
       - TZ=${DOCKER_TZ}
     networks:
       - monitoring
-    #expose:
-    #  - "9093"
+    expose:
+      - "9093"
     volumes:
       - ${MY_DOCKER_DATA_DIR}/prometheus/alertmanager.yml:/alertmanager.yml
     command:
