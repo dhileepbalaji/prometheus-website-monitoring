@@ -27,7 +27,7 @@ services:
       - TZ=${DOCKER_TZ}
     volumes:
       - ${MY_DOCKER_DATA_DIR}/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-      - ${MY_DOCKER_DATA_DIR}/prometheus/alert.rules:/etc/prometheus/alert.rules
+      - ${MY_DOCKER_DATA_DIR}/prometheus/alerts/alert.rules:/etc/prometheus/alerts/*.yml
       - prometheus_data:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yml'
