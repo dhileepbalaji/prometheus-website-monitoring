@@ -34,5 +34,8 @@ receivers:
       - api_url: 'https://hooks.slack.com/services/XXXXXXXXX/XXXXXXXXX/xxxxxxxxxxxxxxxxxxxxxxxxxxx'
         send_resolved: true
         channel: 'monitoring'
-        text: "{{ range .Alerts }}<!channel> {{ .Annotations.summary }}\n{{ .Annotations.description }}\n{{ end }}"
+        title: '{{ template "custom_title" . }}'
+        text: '{{ template "custom_slack_message" . }}'
 
+templates:
+- /alertmanager/notifications.tmpl
