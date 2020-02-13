@@ -1,0 +1,4 @@
+- targets:
+    - https://www.example.com
+    - https://staging.example.com
+  
